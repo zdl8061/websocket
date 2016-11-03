@@ -12,10 +12,11 @@
             output("onerror");
         };
     $('#send').on('click',function(){
-            var input = $("input1");
-            ws.send(input.value);
-            output("send: " + input.value);
-            input.value = "";
+        var input = $("#input1");
+      
+            ws.send(input.val());
+            output("send: " + input.val());
+            input.val("");
             input.focus();
     });
     $('#close').on('click',function(){
