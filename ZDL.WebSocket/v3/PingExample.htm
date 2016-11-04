@@ -1,0 +1,96 @@
+<!-- 
+Author: Adam Smith
+Date Created: October 31, 2007
+Copyright: Copyright ?2007 Codevendor, Adam Smith
+Title: FreeDOM Ping Example
+Description: Uses FreeDOM techniques to create a live ping utility through a webpage.
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Ping Example</title>
+</head>
+
+<script type="text/javascript">
+
+function DisablePing()
+{
+    document.getElementById('Address').disabled = 'true';
+    document.getElementById('Ping').disabled = 'true';
+}
+
+function EnablePing()
+{
+    document.getElementById('Address').disabled = '';
+    document.getElementById('Ping').disabled = '';
+}
+
+function PingAddress()
+{
+    DisablePing();
+	var f = thisMovie("flashObject");
+	f.CreateSocket("id1", "CloseEventCallback", "ConnectEventCallback", "IOErrorEventCallback", "SecurityErrorEventCallback", "SocketDataEventCallback");
+	f.Connect("id1", "127.0.0.1", 50000);
+}
+
+function thisMovie(movieName) 
+{
+    return (navigator.appName.indexOf("Microsoft") != -1)?window[movieName]:document[movieName];
+}
+
+function CloseEventCallback(T)
+{
+    EnablePing();
+}
+
+function ConnectEventCallback(T)
+{
+    var f = thisMovie("flashObject");
+    f.Send("id1", "PING: " + document.getElementById("Address").value);
+    f.Flush("id1");
+}
+
+function IOErrorEventCallback(T, E)
+{
+    document.getElementById("Status").value+= E + "\n";   
+}
+
+function SecurityErrorEventCallback(T, E)
+{
+    document.getElementById("Status").value+= E + "\n";   
+}
+
+function SocketDataEventCallback(T, D)
+{
+    document.getElementById("Status").value+= D;   
+    ScrollToBottom();
+}
+
+function ScrollToBottom()
+{
+    document.getElementById("Status").scrollTop = document.getElementById("Status").scrollHeight;
+}
+
+</script>
+
+<body>
+<span style="font-family:Arial; font-size:14px"><strong>Ping Example</strong></span><br />
+<span style="font-family:Arial; font-size:12px">Enter IP Address or Domain Name:</span> <input type="text" id="Address" style="width: 330px;" maxlength="150" />
+<input type="button" onclick="PingAddress();" id="Ping" name="Ping" value="Ping" />
+<br /><textarea id="Status" rows="20" cols="70" readonly="readonly"></textarea>
+
+    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="flashObject" width="0"
+        height="0" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab"
+        style="display: hidden">
+        <param name="movie" value="javascriptsockets.swf" />
+        <param name="quality" value="low" />
+        <param name="allowScriptAccess" value="always" />
+        <embed src="javascriptsockets.swf" quality="low" width="0" height="0" name="flashObject"
+            id="flashObject" align="middle" play="true" loop="false" allowscriptaccess="always"
+            type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer"
+            style="display: hidden">
+          </embed>
+    </object>
+</body>
+</html>

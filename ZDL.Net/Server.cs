@@ -59,11 +59,20 @@ namespace ZDL.Net
             listener = new Socket(localEP.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             listener.Bind(localEP);
 
+            //IPEndPoint _843 = new IPEndPoint(IPAddress.Parse(_localIp), 843);
+            //var listener843 = new Socket(_843.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            //listener843.Bind(_843);
+
+
             while (_isRunning)
             {
                 allDone.Reset();
                 listener.Listen(10);
                 listener.BeginAccept(new AsyncCallback(acceptCallback), listener);
+
+                //listener843.Listen(10);
+                //listener843.BeginAccept(new AsyncCallback(acceptCallback843), listener843);
+
                 bool isRequest = allDone.WaitOne(new TimeSpan(12, 0, 0));
 
                 if (!isRequest)
@@ -71,11 +80,28 @@ namespace ZDL.Net
                     allDone.Set();
 
                 }
+                
             }
             listener.Close();
         }
 
         static void acceptCallback(IAsyncResult ar)
+        {
+            Socket listener = (Socket)ar.AsyncState;
+
+            if (listener != null)
+            {
+                Socket handler = listener.EndAccept(ar);
+
+                allDone.Set();
+
+                StateObject state = new StateObject();
+                state.workSocket = handler;
+                handler.BeginReceive(state.buffer, 0, _bufferSize, 0, new AsyncCallback(readCallback), state);
+            }
+        }
+
+        static void acceptCallback843(IAsyncResult ar)
         {
             Socket listener = (Socket)ar.AsyncState;
 

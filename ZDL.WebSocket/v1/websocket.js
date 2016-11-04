@@ -17,7 +17,7 @@
     } else {
         logger = { log: function () { }, error: function () { } };
     }
-    window.WebSocket = function (url, protocols, proxyHost, proxyPort, headers) {
+    window.WebSocket = function (url, protocols, proxyHost, proxyPort, headers) {       
         var self = this;
         self.__id = WebSocket.__nextId++;
         WebSocket.__instances[self.__id] = self;
@@ -129,6 +129,7 @@
     WebSocket.__tasks = [];
     WebSocket.__nextId = 0;
     WebSocket.loadFlashPolicyFile = function (url) {
+       
         WebSocket.__addTask(function () {
             WebSocket.__flash.loadManualPolicyFile(url);
         });
@@ -143,6 +144,7 @@
     WebSocket.__onFlashInitialized = function () {
         setTimeout(function () {
             WebSocket.__flash = main.get_flash_obj("webSocketFlash");
+           
             WebSocket.__flash.setCallerUrl(location.href);
             WebSocket.__flash.setDebug(!!window.WEB_SOCKET_DEBUG);
             for (var i = 0; i < WebSocket.__tasks.length; ++i) {
