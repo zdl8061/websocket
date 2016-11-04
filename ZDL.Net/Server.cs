@@ -18,6 +18,7 @@ namespace ZDL.Net
         public static ManualResetEvent allDone = new ManualResetEvent(false);
         public const int _bufferSize = 1024;
         public const int _port = 50000;
+        public const string _localIp = "127.0.0.1";
         public static bool _isRunning = true;
 
         class StateObject
@@ -53,7 +54,8 @@ namespace ZDL.Net
         public void Start()
         {
             IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-            IPEndPoint localEP = new IPEndPoint(IPAddress.Any, _port);
+            //IPEndPoint localEP = new IPEndPoint(IPAddress.Any, _port);
+            IPEndPoint localEP = new IPEndPoint(IPAddress.Parse(_localIp), _port);
             listener = new Socket(localEP.Address.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             listener.Bind(localEP);
 
