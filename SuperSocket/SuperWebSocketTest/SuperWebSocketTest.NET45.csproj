@@ -77,9 +77,9 @@
     <Compile Include="WebSocketTestBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SuperWebSocket\SuperWebSocket.Net45.csproj">
+    <ProjectReference Include="..\SuperWebSocket\SuperWebSocket.NET45.csproj">
       <Project>{2DC79E40-BB70-4F6A-B378-905F2FBC6E97}</Project>
-      <Name>SuperWebSocket.Net45</Name>
+      <Name>SuperWebSocket.NET45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
