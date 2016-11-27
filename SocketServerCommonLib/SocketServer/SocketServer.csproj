@@ -54,9 +54,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="TCPUDPServer.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="TCPUDPServer.cs" />
     <Compile Include="TCPUDPServer.designer.cs">
       <DependentUpon>TCPUDPServer.cs</DependentUpon>
     </Compile>
